@@ -9,12 +9,12 @@ namespace BlockBuilder_v9
 {
     class Rectangle
     {
-   static     ushort[] Index { get; } = { 0, 2, 1, 0, 3, 2 };
+        static ushort[] Index { get; } = { 0, 2, 1, 0, 3, 2 };
 
-      static  public Polygon GetRectanglePolygon(DX.VECTOR pos,Rotate rot, int Size, int Light, int Ghdl)
+        static public Polygon GetRectanglePolygon(DX.VECTOR pos, Rotate rot, int Size, int Light, int Ghdl)
         {
-          DX.VERTEX3D[] Vertex= new DX.VERTEX3D[4];
-        DX.VECTOR v = new DX.VECTOR();
+            DX.VERTEX3D[] Vertex = new DX.VERTEX3D[4];
+            DX.VECTOR v = new DX.VECTOR();
             DX.VECTOR[] vec = new DX.VECTOR[4];
             DX.VECTOR[] vec1 = new DX.VECTOR[4];
 

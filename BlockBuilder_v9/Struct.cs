@@ -65,6 +65,8 @@ namespace BlockBuilder_v9
 
         public void AddPolygon(Polygon polygon)
         {
+            if (polygon.Index == null || polygon.Vertex == null) return;
+
             ++this.MaxIndex;
             int Max = this.MaxIndex;
             Vertex.AddRange(polygon.Vertex);
@@ -75,6 +77,7 @@ namespace BlockBuilder_v9
 
         public void AddPolygon(PolygonList polygonList)
         {
+            if (polygonList.Index == null || polygonList.Vertex == null) return;
             Vertex.AddRange(polygonList.Vertex);
             ++this.MaxIndex;
             int Max = this.MaxIndex;

@@ -11,13 +11,15 @@ namespace BlockBuilder_v9
     {
         DX.VERTEX3D[] Vertex;
         ushort[] Index;
-
+        int[,,] BlockList = new int[16, 128, 16];
 
         int VertexHandle = -1;
         int IndexHandle = -1;
 
         IntPtr VertexPointer;
         IntPtr IndexPointer;
+
+        PolygonList p = new PolygonList();
 
         public void Dispose()
         {
@@ -33,8 +35,7 @@ namespace BlockBuilder_v9
 
         void SetUpBuffer()
         {
-            VertexHandle = DX.CreateVertexBuffer(Vertex.Length, DX.DX_VERTEX_TYPE_NORMAL_3D);
-            IndexHandle = DX.CreateIndexBuffer(Index.Length, DX.DX_INDEX_TYPE_16BIT);
+          
         }
 
         public void Draw(int hdl)
@@ -42,15 +43,14 @@ namespace BlockBuilder_v9
             DX.DrawPolygonIndexed3D_UseVertexBuffer(VertexHandle, IndexHandle, hdl, 1);
         }
 
-        public void Refresh()
+     unsafe   public void Refresh()
         {
             CleanGPU();
-            DX.SetVertexBufferData(0, VertexPointer, Vertex.Length, VertexHandle);
-            DX.SetIndexBufferData(0, IndexPointer, Index.Length, IndexHandle);
-        }
+            CreatePolygonList();
 
-        unsafe public Chunk()
-        {
+            Vertex = p.Vertex.ToArray();
+            Index = p.Index.ToArray();
+
             fixed (DX.VERTEX3D* v = Vertex)
             {
                 VertexPointer = (IntPtr)v;
@@ -60,9 +60,43 @@ namespace BlockBuilder_v9
             {
                 IndexPointer = (IntPtr)i;
             }
+
+            VertexHandle = DX.CreateVertexBuffer(Vertex.Length, DX.DX_VERTEX_TYPE_NORMAL_3D);
+            IndexHandle = DX.CreateIndexBuffer(Index.Length, DX.DX_INDEX_TYPE_16BIT);
+
+            DX.SetVertexBufferData(0, VertexPointer, Vertex.Length, VertexHandle);
+            DX.SetIndexBufferData(0, IndexPointer, Index.Length, IndexHandle);
+        }
+
+        unsafe public Chunk()
+        {
+            p.SetUpPolygon();
+        
             SetUpBuffer();
         }
 
+        public void GenerateChunk()
+        {
+            for (int x = 0; x < 16; x++)
+                for (int z = 0; z < 16; z++)
+                    BlockList[x, 0, z] = 1;
+        }
 
+       void CreatePolygonList()
+        {
+            p.Clear();
+            for (int x = 0; x < 16; x++)
+                for (int y = 0; y < 128; y++)
+                    for (int z = 0; z < 16; z++)
+                    {
+                        if (BlockList[x, y, z] == 1)
+                        {
+                            Cube.surfaceFlagList s = new Cube.surfaceFlagList();
+                            s.SetTrueAll();
+                            var n = Cube.GeneratePolygonList(s, DX.VGet(x, y, z), 1, 12);
+                            p.AddPolygon(n);
+                        }
+                    }
+        }
     }
 }
