@@ -77,7 +77,7 @@ namespace BlockBuilder_v9
 
         public void AddPolygon(PolygonList polygonList)
         {
-            if (polygonList.Index == null || polygonList.Vertex == null) return;
+            if (polygonList.Index.Count == 0 || polygonList.Vertex.Count == 0) return;
             Vertex.AddRange(polygonList.Vertex);
             ++this.MaxIndex;
             int Max = this.MaxIndex;
@@ -85,18 +85,19 @@ namespace BlockBuilder_v9
             Max += polygonList.Index.Max();
             this.MaxIndex = Max;
         }
+
+
     }
 
-    struct Polygon
+    class Polygon
     {
-        public DX.VERTEX3D[] Vertex;
+        public DX.VERTEX3D[] Vertex { get; private set; }
         public ushort[] Index;
 
-        public void SetUpPolygon(DX.VERTEX3D[] Vertex, ushort[] Index)
+        public Polygon(DX.VERTEX3D[] Vertex, ushort[] Index)
         {
             this.Vertex = Vertex;
             this.Index = Index;
         }
     }
 }
-

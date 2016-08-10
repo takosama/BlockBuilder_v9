@@ -23,13 +23,6 @@ namespace BlockBuilder_v9
             float y = pos.y;
             float z = pos.z;
 
-            //    int ax;   //(int)(rot.ax * reversPI * 180);
-            //  int ay; //(int)(rot.ay * reversPI * 180);
-            //int az; //(int)(rot.az * reversPI * 180);
-            //       if (ax < 0) ax *= -1;
-            //     if (ay < 0) ay *= -1;
-            // if (az < 0) az *= -1;
-            //
             v.x = -halfSize;
             v.y = halfSize;
 
@@ -69,10 +62,6 @@ namespace BlockBuilder_v9
                 vec1[i].z = vec[i].z;
             }
 
-            //           var vector= DX.VGet(x, y, z);
-
-            // vec[0] = DX.VAdd(vec1[0], vector);
-
             vec1[0].x += x;
             vec1[0].y += y;
             vec1[0].z += z;
@@ -92,8 +81,6 @@ namespace BlockBuilder_v9
             DX.COLOR_U8 light = MyLight.LightLevelArrey[Light];
             DX.COLOR_U8 Ambient = MyLight.AmbientLightLevel;
             DX.VECTOR VertexNorm = DX.VGet(0, 0, -1);
-            //  DX.VECTOR VertexNorm = DX.VGet(rot.ax,rot.ay,rot.az);
-
 
             Vertex[0].pos = vec1[0];
             Vertex[0].norm = VertexNorm;
@@ -131,9 +118,7 @@ namespace BlockBuilder_v9
             Vertex[3].su = 0.0f;
             Vertex[3].sv = 0.0f;
 
-            Polygon p = new Polygon();
-            p.SetUpPolygon(Vertex, Index);
-
+            Polygon p = new Polygon(Vertex, Index);
             return p;
         }
     }
