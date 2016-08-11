@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace BlockBuilder_v9
 {
-    class Rectangle
+class Rectangle
     {
-        ushort[] Index { get; } = { 0, 2, 1, 0, 3, 2 };
       public Polygon p { get; private set; }
 
 
 
         public void GetRectanglePolygon(DX.VECTOR pos, Rotate rot, int Size, int Light, int Ghdl)
         {
+            ushort[] Index = { 0, 2, 1, 0, 3, 2 };
+
             DX.VERTEX3D[] Vertex = new DX.VERTEX3D[4];
             DX.VECTOR v = new DX.VECTOR();
             DX.VECTOR[] vec = new DX.VECTOR[4];

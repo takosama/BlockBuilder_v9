@@ -8,7 +8,7 @@ namespace BlockBuilder_v9
 {
     class World
     {
-        const int LoadDistance = 64;
+        const int LoadDistance = 32;
         public Chunk[,] chunkArrey { get; private set; } = new Chunk[LoadDistance, LoadDistance];
 
         public void LoadWorld()
