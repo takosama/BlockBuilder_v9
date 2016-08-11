@@ -43,7 +43,7 @@ namespace BlockBuilder_v9
         }
     }
 
-    struct PolygonList
+class PolygonList
     {
         public List<DX.VERTEX3D> Vertex { get; private set; }
         public List<ushort> Index { get; private set; }
@@ -58,8 +58,8 @@ namespace BlockBuilder_v9
 
         public void Clear()
         {
-            Vertex.Clear();
-            Index.Clear();
+            Vertex = null;
+            Index =null;
             MaxIndex = -1;
         }
 
@@ -96,8 +96,11 @@ namespace BlockBuilder_v9
 
         public Polygon(DX.VERTEX3D[] Vertex, ushort[] Index)
         {
+          
             this.Vertex = Vertex;
             this.Index = Index;
         }
+
+       
     }
 }

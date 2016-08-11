@@ -9,9 +9,12 @@ namespace BlockBuilder_v9
 {
     class Rectangle
     {
-        static ushort[] Index { get; } = { 0, 2, 1, 0, 3, 2 };
+        ushort[] Index { get; } = { 0, 2, 1, 0, 3, 2 };
+      public Polygon p { get; private set; }
 
-        static public Polygon GetRectanglePolygon(DX.VECTOR pos, Rotate rot, int Size, int Light, int Ghdl)
+
+
+        public void GetRectanglePolygon(DX.VECTOR pos, Rotate rot, int Size, int Light, int Ghdl)
         {
             DX.VERTEX3D[] Vertex = new DX.VERTEX3D[4];
             DX.VECTOR v = new DX.VECTOR();
@@ -33,6 +36,7 @@ namespace BlockBuilder_v9
             vec[2] = v;// DX.VGet(halfSize, -halfSize, 0);
             v.y = halfSize;
             vec[3] = v;// DX.VGet(halfSize, halfSize, 0);
+            
 
             float sinx = rot.ax;//Sin[ax];
             float cosx = rot.ax == 1 ? 0 : rot.ax == -1 ? 0 : 1;//Cos[ax];
@@ -119,8 +123,9 @@ namespace BlockBuilder_v9
             Vertex[3].su = 0.0f;
             Vertex[3].sv = 0.0f;
 
-            Polygon p = new Polygon(Vertex, Index);
-            return p;
+         /* this.*/p = new Polygon(Vertex, Index);
+          
         }
+
     }
 }

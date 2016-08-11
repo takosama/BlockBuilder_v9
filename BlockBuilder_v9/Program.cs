@@ -14,7 +14,6 @@ namespace BlockBuilder_v9
             DXLibInit();
 
             int hdl = DX.LoadGraph("TNT.png");
-            int k = 0;
 
             World w = new World();
             w.LoadWorld();
@@ -31,7 +30,7 @@ namespace BlockBuilder_v9
 
             while (true)
             {
-                GC.Collect();
+                // GC.Collect();
                 DX.ClearDrawScreen();
 
                 if (DX.CheckHitKey(DX.KEY_INPUT_W) == 1)
@@ -67,23 +66,15 @@ namespace BlockBuilder_v9
                 foreach (var n in w.chunkArrey)
                     n.Draw(hdl);
 
-                k++;
-                if (k == 1)
-                {
-                    w.chunkArrey[0,0].SetBlock(1, 10, 1);
-                    w.chunkArrey[0,0].Refresh();
-                }
-                if (k == 2)
-                {
-                   w.chunkArrey[0,0].DeleteBlock(1, 10, 1);
-                    w.chunkArrey[0,0].Refresh();
-                    k = 0;
-                }
-
                 if (IsPointMove)
                     DX.DrawString(0, 0, MX + "," + MY, DX.GetColor(0, 255, 0));
                 else
                     DX.DrawString(0, 0, "PointerFree", DX.GetColor(0, 255, 0));
+
+
+                w.chunkArrey[0, 0].DeleteBlock(0, 0, 0);
+                w.chunkArrey[0, 0].Refresh();
+                w.chunkArrey[0, 0].SendGPU();
 
                 DX.ScreenFlip();
             }

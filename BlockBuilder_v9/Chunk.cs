@@ -54,8 +54,16 @@ namespace BlockBuilder_v9
         unsafe public void Refresh()
         {
             CleanGPU();
+         
+            p.SetUpPolygon();
             CreatePolygonList();
 
+
+            
+        }
+
+        unsafe public void SendGPU()
+        {
             Vertex = p.Vertex.ToArray();
             Index = p.Index.ToArray();
 
@@ -69,6 +77,8 @@ namespace BlockBuilder_v9
 
             DX.SetVertexBufferData(0, VertexPointer, Vertex.Length, VertexHandle);
             DX.SetIndexBufferData(0, IndexPointer, Index.Length, IndexHandle);
+
+            p.Clear();
         }
 
         unsafe public Chunk(int x, int z)
@@ -83,15 +93,15 @@ namespace BlockBuilder_v9
         public void GenerateChunk()
         {
             for (int x = 1; x < 18; x++)
-                for (int y = 0; y < 64; y++)
+                for (int y = 0; y < 128; y++)
                     for (int z = 1; z < 18; z++)
                         BlockList[x, y, z] = 1;
         }
 
         void CreatePolygonList()
         {
-            p.Clear();
-
+            Cube c = new Cube();
+            var n = new PolygonList();
             for (int x = 1; x < 17; x++)
                 for (int y = 0; y < 128; y++)
                     for (int z = 1; z < 17; z++)
@@ -112,9 +122,14 @@ namespace BlockBuilder_v9
                                 if (BlockList[x, y, z - 1] != 0) s.Front = false;
                             if (z != 17)
                                 if (BlockList[x, y, z + 1] != 0) s.Back = false;
-
-                            p.AddPolygon(Cube.GeneratePolygonList(s, DX.VGet(x + this.x - 1, y, z + this.z - 1), 1, 12));
+                            
+                          
+                         c.GeneratePolygonList(s, DX.VGet(x + this.x - 1, y, z + this.z - 1), 1, 12);
+                            p.AddPolygon(c.p);
+                           
                         }
+      
+
         }
 
         public int GetBlock(int x, int y, int z)
