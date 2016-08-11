@@ -48,14 +48,15 @@ namespace BlockBuilder_v9
                 vec1[i].y = vec[i].z * sinx + vec[i].y * cosx;
                 vec1[i].z = vec[i].z * cosx + vec[i].y * sinx;
             }
+
             for (int i = 0; i < 4; i++)
             {
                 vec[i].x = vec1[i].x * cosy - vec1[i].z * siny;
                 vec[i].y = vec1[i].y;
                 vec[i].z = vec1[i].x * siny + vec1[i].z * cosy;
             }
-            for (int i = 0; i < 4; i++)
 
+            for (int i = 0; i < 4; i++)
             {
                 vec1[i].x = vec[i].x * cosz - vec[i].y * sinz;
                 vec1[i].y = vec[i].x * sinz + vec[i].y * cosz;
