@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace BlockBuilder_v9
 {
-    struct Rotate
+    class Rotate
     {
-        public float ax { get; private set; }
-        public float ay { get; private set; }
-        public float az { get; private set; }
+        public float ax { get; set; }
+        public float ay { get; set; }
+        public float az { get; set; }
 
-        public static Rotate GetRotate(float ax, float ay, float az)
+        public Rotate(float ax, float ay, float az)
         {
-            Rotate rot = new Rotate();
-            rot.ax = ax;
-            rot.ay = ay;
-            rot.az = az;
-            return rot;
+            this.ax = ax;
+            this.ay = ay;
+            this.az = az;
         }
     }
 
@@ -43,10 +41,10 @@ namespace BlockBuilder_v9
         }
     }
 
-class PolygonList
+    class PolygonList
     {
-        public List<DX.VERTEX3D> Vertex { get; private set; }
-        public List<ushort> Index { get; private set; }
+        public List<DX.VERTEX3D> Vertex;// { get; private set; }
+        public List<ushort> Index;// { get; private set; }
         int MaxIndex;
 
         public void SetUpPolygon()
@@ -59,7 +57,7 @@ class PolygonList
         public void Clear()
         {
             Vertex = null;
-            Index =null;
+            Index = null;
             MaxIndex = -1;
         }
 
@@ -69,8 +67,10 @@ class PolygonList
 
             ++this.MaxIndex;
             int Max = this.MaxIndex;
+
             Vertex.AddRange(polygon.Vertex);
             Index.AddRange(polygon.Index.Select(x => (ushort)(x + Max)));
+
             Max += polygon.Index.Max();
             this.MaxIndex = Max;
         }
@@ -78,10 +78,12 @@ class PolygonList
         public void AddPolygon(PolygonList polygonList)
         {
             if (polygonList.Index.Count == 0 || polygonList.Vertex.Count == 0) return;
-            Vertex.AddRange(polygonList.Vertex);
             ++this.MaxIndex;
             int Max = this.MaxIndex;
+
+            Vertex.AddRange(polygonList.Vertex);
             Index.AddRange(polygonList.Index.Select(x => (ushort)(x + Max)));
+
             Max += polygonList.Index.Max();
             this.MaxIndex = Max;
         }
@@ -96,11 +98,22 @@ class PolygonList
 
         public Polygon(DX.VERTEX3D[] Vertex, ushort[] Index)
         {
-          
             this.Vertex = Vertex;
             this.Index = Index;
         }
-
-       
     }
+
+    class Pos
+    {
+        public Pos(float x,float y,float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+        public float x;
+        public float y;
+        public float z;
+    }
+
 }

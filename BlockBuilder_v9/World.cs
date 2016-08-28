@@ -8,7 +8,8 @@ namespace BlockBuilder_v9
 {
     class World
     {
-        const int LoadDistance = 32;
+  public  const int LoadDistance = 16;
+
         public Chunk[,] chunkArrey { get; private set; } = new Chunk[LoadDistance, LoadDistance];
 
         public void LoadWorld()
@@ -18,7 +19,7 @@ namespace BlockBuilder_v9
                 for (int z_i = 0; z_i < LoadDistance; ++z_i)
                 {
                     c = new Chunk(x_i << 4, z_i << 4);
-                    c.GenerateChunk();
+                    c.GenerateChunk(x_i,z_i);
                     chunkArrey[x_i, z_i] = c;
                 }
             c = null;
@@ -30,21 +31,17 @@ namespace BlockBuilder_v9
             {
                 for (int z_i = 0; z_i < LoadDistance; ++z_i)
                 {
-                    for (int i = 0; i < 16; ++i)
+                    for (int i = 0; i < 18; ++i)
                         for (int j = 0; j < 128; j++)
                         {
-                            if (x_i != 0)
-                                if (chunkArrey[(x_i - 1), z_i].GetBlock(15, j, i) == 1)
-                                    chunkArrey[x_i, z_i].SetBlock(-1, j, i);
-                            if (x_i != LoadDistance - 1)
-                                if (chunkArrey[(x_i + 1), z_i].GetBlock(0, j, i) == 1)
-                                    chunkArrey[x_i, z_i].SetBlock(16, j, i);
+                          if (x_i != 0)
+                              chunkArrey[x_i, z_i].BlockList[0, j, i] = chunkArrey[x_i - 1, z_i].BlockList[16, j, i];
+                            if (x_i != LoadDistance-1)
+                              chunkArrey[x_i, z_i].BlockList[17, j, i] = chunkArrey[x_i + 1, z_i].BlockList[1, j, i];
                             if (z_i != 0)
-                                if (chunkArrey[x_i, z_i - 1].GetBlock(i, j, 15) == 1)
-                                    chunkArrey[x_i, z_i].SetBlock(i, j, -1);
+                                chunkArrey[x_i, z_i].BlockList[i, j, 0] = chunkArrey[x_i, z_i-1].BlockList[i, j, 16];
                             if (z_i != LoadDistance - 1)
-                                if (chunkArrey[x_i, z_i + 1].GetBlock(i, j, 0) == 1)
-                                    chunkArrey[x_i, z_i].SetBlock(i, j, 16);
+                                chunkArrey[x_i, z_i].BlockList[i, j, 17] = chunkArrey[x_i , z_i+1].BlockList[i, j, 1];
                         }
                     chunkArrey[x_i, z_i].Refresh();
                 }

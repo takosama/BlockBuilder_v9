@@ -13,7 +13,7 @@ class Rectangle
 
 
 
-        public void GetRectanglePolygon(DX.VECTOR pos, Rotate rot, int Size, int Light, int Ghdl)
+        public Polygon GetRectanglePolygon(DX.VECTOR pos, Rotate rot, int Size, int Light, int Ghdl)
         {
             ushort[] Index = { 0, 2, 1, 0, 3, 2 };
 
@@ -124,7 +124,7 @@ class Rectangle
             Vertex[3].su = 0.0f;
             Vertex[3].sv = 0.0f;
 
-         /* this.*/p = new Polygon(Vertex, Index);
+         /* this.*/return new Polygon(Vertex, Index);
           
         }
 

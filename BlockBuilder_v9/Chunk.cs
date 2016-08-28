@@ -90,12 +90,16 @@ namespace BlockBuilder_v9
             this.z = z;
         }
 
-        public void GenerateChunk()
+        public void GenerateChunk(int c_x, int c_z)
         {
-            for (int x = 1; x < 18; x++)
-                for (int y = 0; y < 128; y++)
-                    for (int z = 1; z < 18; z++)
-                        BlockList[x, y, z] = 1;
+            for (int y = 3; y < 16; y += 1)
+            for (int x = 2; x < 17; x++)
+            {
+                for (int z = 1; z < 17; z++)
+                {
+                    BlockList[x, y, z] = 1;
+                }
+            }
         }
 
         void CreatePolygonList()
@@ -110,23 +114,20 @@ namespace BlockBuilder_v9
                             Cube.surfaceFlagList s = new Cube.surfaceFlagList();
                             s.SetTrueAll();
 
-                            if (x != 0)
+                           // if (x != 0)
                                 if (BlockList[x - 1, y, z] != 0) s.Left = false;
-                            if (x != 17)
+                           // if (x != 16)
                                 if (BlockList[x + 1, y, z] != 0) s.Right = false;
                             if (y != 0)
                                 if (BlockList[x, y - 1, z] != 0) s.Bottom = false;
                             if (y != 127)
                                 if (BlockList[x, y + 1, z] != 0) s.Top = false;
-                            if (z != 0)
+                         //   if (z != 0)
                                 if (BlockList[x, y, z - 1] != 0) s.Front = false;
-                            if (z != 17)
+                           // if (z != 16)
                                 if (BlockList[x, y, z + 1] != 0) s.Back = false;
-                            
-                          
-                         c.GeneratePolygonList(s, DX.VGet(x + this.x - 1, y, z + this.z - 1), 1, 12);
-                            p.AddPolygon(c.p);
-                           
+
+                            p.AddPolygon(c.GeneratePolygonList(s, DX.VGet(x + this.x - 1, y, z + this.z - 1), 1, 12));
                         }
       
 
@@ -134,16 +135,28 @@ namespace BlockBuilder_v9
 
         public int GetBlock(int x, int y, int z)
         {
-            return BlockList[x + 1, y, z + 1];
+            return BlockList[x , y, z ];
         }
 
         public void SetBlock(int x, int y, int z)
         {
-            BlockList[x + 1, y, z + 1] = 1;
+            BlockList[x , y, z ] = 1;
         }
         public void DeleteBlock(int x, int y, int z)
         {
-            BlockList[x + 1, y, z + 1] = 0;
+            BlockList[x , y, z ] = 0;
+        }
+
+        public int ClacNextFloor(int x,int y,int z)
+        {
+            int start = 127;
+            if (y < 128) start = y;
+
+            for(int i=start;i>=0;i--)
+            {
+                if (BlockList[x, i, z] == 1) return i;
+            }
+            return 0;
         }
     }
 }
