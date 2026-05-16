@@ -32,8 +32,10 @@ namespace BlockBuilder_v9
 
         void CleanGPU()
         {
-            DX.DeleteVertexBuffer(VertexHandle);
-            DX.DeleteIndexBuffer(IndexHandle);
+            if (VertexHandle != -1) DX.DeleteVertexBuffer(VertexHandle);
+            if (IndexHandle != -1) DX.DeleteIndexBuffer(IndexHandle);
+            VertexHandle = -1;
+            IndexHandle = -1;
         }
 
         ~Chunk()
@@ -93,7 +95,7 @@ namespace BlockBuilder_v9
         public void GenerateChunk(int c_x, int c_z)
         {
             for (int y = 3; y < 16; y += 1)
-            for (int x = 2; x < 17; x++)
+            for (int x = 1; x < 17; x++)
             {
                 for (int z = 1; z < 17; z++)
                 {

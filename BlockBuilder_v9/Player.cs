@@ -12,6 +12,7 @@ namespace BlockBuilder_v9
         public float x { get; set; } = 0;
         public float y { get; set; } = 0;
         public float z { get; set; } = 0;
+        public float speed = 0.1f;
         public Rotate rot;
 
         public Player()
