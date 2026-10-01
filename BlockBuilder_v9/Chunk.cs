@@ -16,9 +16,6 @@ namespace BlockBuilder_v9
         int VertexHandle = -1;
         int IndexHandle = -1;
 
-        IntPtr VertexPointer;
-        IntPtr IndexPointer;
-
         PolygonList p = new PolygonList();
 
         int x;
@@ -67,16 +64,17 @@ namespace BlockBuilder_v9
             Vertex = p.Vertex.ToArray();
             Index = p.Index.ToArray();
 
-            fixed (DX.VERTEX3D* v = Vertex)
-                VertexPointer = (IntPtr)v;
-            fixed (ushort* i = Index)
-                IndexPointer = (IntPtr)i;
-
             VertexHandle = DX.CreateVertexBuffer(Vertex.Length, DX.DX_VERTEX_TYPE_NORMAL_3D);
             IndexHandle = DX.CreateIndexBuffer(Index.Length, DX.DX_INDEX_TYPE_16BIT);
 
-            DX.SetVertexBufferData(0, VertexPointer, Vertex.Length, VertexHandle);
-            DX.SetIndexBufferData(0, IndexPointer, Index.Length, IndexHandle);
+            // DxLib copies the source data during these calls. Never let a managed
+            // array pointer escape its fixed scope, including across allocations.
+            fixed (DX.VERTEX3D* v = Vertex)
+            fixed (ushort* i = Index)
+            {
+                DX.SetVertexBufferData(0, (IntPtr)v, Vertex.Length, VertexHandle);
+                DX.SetIndexBufferData(0, (IntPtr)i, Index.Length, IndexHandle);
+            }
 
             p.Clear();
         }

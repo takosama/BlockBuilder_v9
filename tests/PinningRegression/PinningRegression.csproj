@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><AllowUnsafeBlocks>true</AllowUnsafeBlocks></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../BlockBuilder_v9/Chunk.cs" Link="Chunk.cs" />
+    <Compile Include="../../BlockBuilder_v9/Struct.cs" Link="Struct.cs" />
+  </ItemGroup>
+</Project>
